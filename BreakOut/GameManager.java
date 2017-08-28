@@ -203,7 +203,7 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			if(paddle.paddleXPos >= 660){
 				paddle.paddleXPos = 683;
 			}else {
-				moveRight();
+				movePaddleRight();
 			}
 			
 		}
@@ -212,7 +212,7 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			if(paddle.paddleXPos <= 30){
 				paddle.paddleXPos = 3;
 			}else {
-				moveLeft();
+				movePaddleLeft();
 			}
 			
 		}
@@ -233,13 +233,13 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 		repaint();
 	}
 	
-	public void moveRight() {
+	public void movePaddleRight() {
 		play = true;
 		paddle.paddleXPos += 25;
 	}
 
 
-	public void moveLeft() {
+	public void movePaddleLeft() {
 		play = true;
 		paddle.paddleXPos -= 25;
 	}

@@ -20,14 +20,10 @@ public class GameConstants {
     public static final int PADDLE_HEIGHT = 10;
     public static final int PADDLE_INITIAL_POSITION_X = 360;
     public static final int PADDLE_INITIAL_POSITION_Y = 720;
-    public static final int PADDLE_MIN = 35;
-    public static final int PADDLE_MAX = 140;
-
+  
     // Bricks
     public static final int BRICK_WIDTH = 70;
     public static final int BRICK_HEIGHT = 40;
-    public static final int MAX_BRICKS = 50;
-    public static final int NO_BRICKS = 0;
     public static final int NUM_ROWS = 5;
     public static final int NUM_COLUMNS = 10;
 
