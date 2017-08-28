@@ -23,26 +23,33 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 	private Brick brick;
 	private Watch watch;
 	private List<Observer> observers = new ArrayList<Observer>();
-	private int timeDelay = 7;
-	private boolean play = false;
-	private int totalBricks;
-	private int score;
-	private Timer timer;
+	private int timeDelay = 7; // repaint time
+	private boolean play = false; // to detect if game is running or not
+	private int totalBricks; // to hold the number of current bricks
+	private int score; // to hold scores
+	private Timer timer; // timer to count required timeDelay
 	
 	public  GameManager(int width, int height){
 		this.setSize(width, height);
 		this.setFocusable(true);
 		this.setFocusTraversalKeysEnabled(false);
-		this.totalBricks = GameConstants.NUM_ROWS * GameConstants.NUM_COLUMNS;
+		
+		this.totalBricks = GameConstants.NUM_ROWS * GameConstants.NUM_COLUMNS; // instantiating the number of initial bricks.
 		this.score = 0;
 		
+		// creating instances of Ball, Paddle,Brick and Watch classes
 		ball = new Ball(GameConstants.BALL_INITIAL_POSITION_X, GameConstants.BALL_INITIAL_POSITION_Y, GameConstants.BALL_RADIUS);
 		paddle = new Paddle(GameConstants.PADDLE_INITIAL_POSITION_X, GameConstants.PADDLE_INITIAL_POSITION_Y, GameConstants.PADDLE_WIDTH,GameConstants.PADDLE_HEIGHT);
 		brick = new Brick(GameConstants.NUM_ROWS,GameConstants.NUM_COLUMNS,GameConstants.BRICK_WIDTH, GameConstants.BRICK_HEIGHT);
 		watch = new Watch();
-		addKeyListener(this);
+		
+		addKeyListener(this); //Enabling KeyListener
+		
+		//registering the observers
 		register(ball);
-		register(watch);		
+		register(watch);
+		
+		//starting the new timer
 		timer = new Timer(timeDelay,this);
 		timer.start();
 	}
@@ -76,12 +83,18 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			//drawing watch
 			watch.draw(g);
 			
+			
+			// If player wins the game
 			if(totalBricks <= 0){
 				play = false;
+				
+				//resetting clock and unregistering observers
 				watch.reset();
 				removeRegister(ball);
 				removeRegister(watch);
 				
+				
+				// Displaying Scores and game status
 				g.setColor(Color.red);
 				g.setFont(new Font("serif", Font.BOLD,30));
 				g.drawString("You Won   Score: "+score, 350, 400);
@@ -91,14 +104,16 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 				
 			}
 			
-			
+			// if ball goes below paddle (if the game is over)
 			if(ball.ballposY > 720 ){
 				play = false;
+				
+				//resetting clock and unregistering observers
 				watch.reset();
 				removeRegister(ball);
 				removeRegister(watch);
 				
-				
+				// Displaying Scores and game status
 				g.setColor(Color.red);
 				g.setFont(new Font("serif", Font.BOLD,30));
 				g.drawString("Game Over, Score : "+score, 350, 400);
@@ -111,12 +126,12 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			}
 			
 			g.dispose();
-			
-			
-			
+						
 		
 	}
+	
 
+	// Once the timer ticks
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// ball movement 
@@ -127,6 +142,7 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
         		   ball.ballYdir = -ball.ballYdir;				
         	   }
 			
+        	// to detect intersection of ball and bricks 
 			  A:for(int i=0; i < brick.numRows; i++){
 					for(int j=0; j< brick.numCols; j++){
 						if(brick.bricks[i][j] > 0 ){
@@ -195,10 +211,12 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	// on pressing a key from Keyboard
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
+		// if player hits the Right key
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			if(paddle.paddleXPos >= 660){
 				paddle.paddleXPos = 683;
@@ -207,7 +225,7 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			}
 			
 		}
-		
+		// if player hits the Left key
 		if(e.getKeyCode() == KeyEvent.VK_LEFT){
 			if(paddle.paddleXPos <= 30){
 				paddle.paddleXPos = 3;
@@ -216,29 +234,35 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			}
 			
 		}
-		
+		// if the game is overt and player wants to play it again
 		if(e.getKeyCode() == KeyEvent.VK_SPACE && play == false){
 			play = true;
+			
+			//resetting objects
 			ball.reset();
 			paddle.reset();
 			watch.reset();
 			brick.reset();
 			score = 0;
-			repaint();
+			
+			//registering observers again
 			register(ball);
 			register(watch);
+			
+			repaint();
 		}
 		
 		
 		repaint();
 	}
 	
+	//to move the paddle right
 	public void movePaddleRight() {
 		play = true;
 		paddle.paddleXPos += 25;
 	}
 
-
+	//to move the paddle left
 	public void movePaddleLeft() {
 		play = true;
 		paddle.paddleXPos -= 25;
