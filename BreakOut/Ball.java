@@ -27,6 +27,8 @@ public class Ball implements Observer{
 	public void reset() {
 		ballposX = GameConstants.BALL_INITIAL_POSITION_X;
 		ballposY = GameConstants.BALL_INITIAL_POSITION_Y;
+		ballXdir = GameConstants.BALL_SPEED_XDIR;
+		ballYdir = GameConstants.BALL_SPEED_YDIR;
 	}
 
 	@Override

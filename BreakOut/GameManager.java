@@ -79,6 +79,8 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			if(totalBricks <= 0){
 				play = false;
 				watch.reset();
+				removeRegister(ball);
+				removeRegister(watch);
 				
 				g.setColor(Color.red);
 				g.setFont(new Font("serif", Font.BOLD,30));
@@ -93,6 +95,9 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			if(ball.ballposY > 720 ){
 				play = false;
 				watch.reset();
+				removeRegister(ball);
+				removeRegister(watch);
+				
 				
 				g.setColor(Color.red);
 				g.setFont(new Font("serif", Font.BOLD,30));
@@ -220,6 +225,8 @@ public class GameManager extends JPanel implements ActionListener, Observable, K
 			brick.reset();
 			score = 0;
 			repaint();
+			register(ball);
+			register(watch);
 		}
 		
 		
